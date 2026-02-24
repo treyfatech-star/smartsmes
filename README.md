@@ -122,3 +122,23 @@ http://localhost
 - DB indexes on tenant/date/status fields.
 - VAT aggregation done in DB via Prisma aggregate APIs.
 - Design supports horizontal API scaling and >100k SMEs by tenant-keyed query paths.
+
+## 10) Validation rerun checklist
+Use the commands below when re-running verification locally:
+
+```bash
+npm --prefix backend install
+npm --prefix frontend install
+docker compose config
+```
+
+If registry/network policy blocks package download, run JSON sanity checks at minimum:
+
+```bash
+python - <<'PY'
+import json, pathlib
+for f in ['backend/package.json','backend/tsconfig.json','frontend/package.json','frontend/tsconfig.json']:
+    json.loads(pathlib.Path(f).read_text())
+print('json-parse-ok')
+PY
+```
